@@ -1,0 +1,1 @@
+dotnet stryker --config-file "stryker-config.json" --open-report:html

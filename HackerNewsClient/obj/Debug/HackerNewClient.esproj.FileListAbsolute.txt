@@ -1,0 +1,1 @@
+C:\Users\Jason\source\repos\hackernews\HackerNewClient\obj\Debug\HackerNewClient.esproj.CoreCompileInputs.cache

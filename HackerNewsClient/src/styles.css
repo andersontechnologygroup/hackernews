@@ -1,0 +1,70 @@
+/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+@import "tailwindcss";
+
+:host {
+  font-family: 'Inter', sans-serif;
+}
+
+/* Custom styles for story cards */
+.story-card {
+  @apply flex items-center p-4 bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700;
+  @apply hover:shadow-md hover:border-orange-400 dark:hover:border-orange-500 transform hover:-translate-y-1 transition-all duration-300;
+}
+
+/* Skeleton Loader styles */
+.skeleton {
+  background-color: #e2e8f0; /* bg-gray-300 */
+  border-radius: 0.25rem; /* rounded */
+  animation: shimmer 1.5s infinite linear;
+}
+
+.dark .skeleton {
+  background-color: #374151; /* dark:bg-gray-700 */
+}
+
+.skeleton-card {
+  @apply flex items-center p-4 bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700;
+}
+
+.skeleton-score {
+  @apply w-12 h-12 mr-6 rounded-md;
+}
+
+.skeleton-title {
+  @apply h-5 w-3/4 mb-2;
+}
+
+.skeleton-meta {
+  @apply h-4 w-1/2;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -468px 0;
+  }
+
+  100% {
+    background-position: 468px 0;
+  }
+}
+
+.skeleton {
+  background-image: linear-gradient(to right, rgba(0,0,0,0) 0%, rgba(255,255,255,0.1) 20%, rgba(0,0,0,0) 40%, rgba(0,0,0,0) 100%);
+  background-repeat: no-repeat;
+  background-size: 800px 104px;
+}
+
+.dark .skeleton {
+  background-image: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.05) 20%, rgba(255,255,255,0) 40%, rgba(255,255,255,0) 100%);
+}
+
+.bg-orange {
+  background-color: orange;
+}
+
+.pagination-button {
+    @apply px-4 py-2 text-sm font-medium bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors;
+    @apply disabled:opacity-50 disabled:cursor-not-allowed;
+}
+

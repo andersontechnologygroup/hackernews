@@ -1,0 +1,128 @@
+<!-- Main container with theme class -->
+<div>
+  <div class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200 min-h-screen font-sans transition-colors duration-300">
+
+    <!-- Main Application View -->
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <!-- Header -->
+      <header class="flex flex-col md:flex-row items-center justify-between pb-6 border-b-2 border-gray-200 dark:border-gray-700">
+        <div class="flex items-center space-x-3 mb-4 md:mb-0">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 text-orange-500" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z" /></svg>
+          <h1 class="text-3xl font-bold text-gray-900 dark:text-white">Hacker News</h1>
+        </div>
+
+        <!-- Search Form -->
+        <div class="w-full md:w-auto flex items-center space-x-2">
+          <input type="text" [(ngModel)]="searchKeyword" (ngModelChange)="onSearchChange()" placeholder="Search title..."
+                 class="w-full md:w-48 px-4 py-2 bg-gray-200 dark:bg-gray-800 border border-transparent rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 transition">
+          <input type="text" [(ngModel)]="searchUser" (ngModelChange)="onSearchChange()" placeholder="Search user..."
+                 class="w-full md:w-48 px-4 py-2 bg-gray-200 dark:bg-gray-800 border border-transparent rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 transition">
+
+
+        </div>
+
+      </header>
+
+      <main class="mt-8">
+        <!-- Loading Skeleton -->
+        @if ( isLoading()) {
+        <div class="space-y-4">
+          @for (item of [1,2,3,4,5]; track item) {
+          <div class="skeleton-card">
+            <div class="skeleton skeleton-score"></div>
+            <div class="w-full">
+              <div class="skeleton skeleton-title"></div>
+              <div class="skeleton skeleton-meta"></div>
+            </div>
+          </div>
+          }
+        </div>
+        }
+
+        <!-- Error Message -->
+        @if (errorMessage() && !isLoading()) {
+        <div class="bg-red-100 dark:bg-red-900/50 border border-red-300 dark:border-red-600 text-red-700 dark:text-red-300 px-4 py-3 rounded-lg relative text-center" role="alert">
+          <strong class="font-bold">An Error Occurred!</strong>
+          <span class="block sm:inline">{{ errorMessage() }}</span>
+        </div>
+        }
+
+        <!-- Pagination Controls -->
+        @if(totalPages() > 1)
+        {
+        <div class="flex items-center justify-between mt-8 pb-6">
+          <button (click)="goToPreviousPage()" [disabled]="currentPage() === 1" class="pagination-button">
+            &larr; Previous
+          </button>
+
+          <span class="text-sm font-medium text-grey-700 dark:text-gray-300">
+            Page {{currentPage() }} of {{ totalPages() }} ({{ allStories().length }} stories)
+          </span>
+
+          <button (click)="goToNextPage()" [disabled]="currentPage() === totalPages()" class="pagination-button">
+            Next &rarr;
+          </button>
+        </div>
+        }
+
+        <!-- Stories List -->
+        @if (!isLoading() && !errorMessage()) {
+        <div class="space-y-2">
+          @for (story of stories(); track story.id) {
+
+          <a [href]="story.url" target="_blank" rel="noopener noreferrer" class="story-card group">
+            <div class="flex-grow">
+              <h2 class="text-lg font-semibold text-gray-800 dark:text-gray-100 group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors">
+                {{ story.title }}
+              </h2>
+              <div class="flex items-center space-x-2 text-sm text-gray-500 dark:text-gray-400 mt-1">
+                <span>by <strong>{{ story.by }}</strong></span>
+                <span>&nbsp; &middot; &nbsp;</span>
+                <span>{{ formatTimeAgo(story.time) }}</span>
+                <span>&nbsp; &middot; &nbsp;</span>
+                <span class="text-gray-600 dark:text-gray-300 font-medium truncate">
+                  {{ getHostname(story.url) }}
+                </span>
+                <span>&nbsp; &middot; &nbsp;</span>
+                <span class="text-gray-600 dark:text-gray-300 font-medium truncate">
+                  score of {{ story.score }}
+                </span>
+
+              </div>
+            </div>
+          </a>
+          } @empty {
+          <div class="text-center py-16">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16 mx-auto text-gray-400 dark:text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+            <h3 class="mt-2 text-lg font-medium text-gray-900 dark:text-white">No Stories Found</h3>
+            <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Your search returned no results. Try clearing it.</p>
+            <button (click)="clearSearch()" class="mt-4 px-4 py-2 text-sm font-medium text-white bg-orange-600 rounded-lg hover:bg-orange-700 transition">Clear Search</button>
+          </div>
+          }
+
+        </div>
+        <!-- Pagination Controls -->
+        @if(totalPages() > 1)
+        {
+        <div class="flex items-center justify-between mt-8">
+          <button (click)="goToPreviousPage()" [disabled]="currentPage() === 1" class="pagination-button">
+            &larr; Previous
+          </button>
+
+          <span class="text-sm font-medium text-grey-700 dark:text-gray-300">
+            Page {{currentPage() }} of {{ totalPages() }} ({{ allStories().length }} stories)
+          </span>
+
+          <button (click)="goToNextPage()" [disabled]="currentPage() === totalPages()" class="pagination-button">
+            Next &rarr;
+          </button>
+        </div>
+        }
+
+        }
+      </main>
+    </div>
+  </div>
+</div>
+
+<router-outlet />

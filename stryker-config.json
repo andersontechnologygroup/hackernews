@@ -1,0 +1,27 @@
+{
+  "stryker-config": {
+    "solution": "HackerNews.sln",
+    "test-projects": [
+      "./tests/HackerNews.Api.Library.Tests/HackerNews.Api.Library.Tests.csproj"
+    ],
+
+    "mutation-level": "Complete",
+
+    "thresholds": {
+      "high": 90,
+      "low": 80,
+      "break":79
+    },
+
+    "ignore-methods": [
+      "*logger.Log*", // Ignores all methods involving the logger
+      "Console.Write*", // Ignores all methods starting with Write in the class Console
+      "return BadRequest"
+    ]
+  }
+}
+
+/*
+
+dotnet stryker --break-at 80
+*/

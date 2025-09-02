@@ -30,6 +30,12 @@ namespace HackerNews.Api.Library.Services
 
         public async Task<IEnumerable<HackerNewsItem>> GetNewestStoriesAsync(int? page = null, int? pageSize = null, CancellationToken cancellationToken = default)
         {
+            if (_settings == null) throw new ArgumentNullException("CacheKey", "CacheKey is not configured in appsettings.json");
+            if(_settings.CacheKey == null) throw new ArgumentNullException("CacheKey", "CacheKey is not configured in appsettings.json");
+            if (_settings.NewStoriesJSONPath == null) throw new ArgumentNullException("NewStoriesJSONPath", "NewStoriesJSONPath is not configured in appsettings.json");
+            if (_settings.NumberOfStoriesToPull == null) throw new ArgumentNullException("NumberOfStoriesToPull", "NumberOfStoriesToPull is not configured in appsettings.json");
+            if (_settings.CacheTimeoutInMinutes == null) throw new ArgumentNullException("CacheTimeoutInMinutes", "CacheTimeoutInMinutes is not configured in appsettings.json");
+            
             // Try to get stories from the cache first
             if (_memoryCache.TryGetValue(_settings.CacheKey!, out IEnumerable<HackerNewsItem>? cachedStories))
             {
@@ -45,7 +51,7 @@ namespace HackerNews.Api.Library.Services
             {
                 storyIds = await _httpClient.GetFromJsonAsync<int[]>(_settings.NewStoriesJSONPath!, cancellationToken);
             }
-            catch (Exception ex)
+            catch 
             {
                 // Nothing to do here.   The API returned an error of some kind.  
                 // So we just want an empty list.
@@ -65,7 +71,7 @@ namespace HackerNews.Api.Library.Services
             var validStories = stories
                 .Where(story => story is not null &&
                                 !string.IsNullOrEmpty(story.Url) &&
-                                Uri.TryCreate(story.Url, UriKind.Absolute, out var uriResult) &&
+                                Uri.TryCreate(story.Url, UriKind.Absolute, out Uri? uriResult) &&
                                 (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps))
                 .ToList();
 
@@ -88,6 +94,13 @@ namespace HackerNews.Api.Library.Services
 
         public async Task<HackerNewsItem?> GetStoryDetailsAsync(int storyId, CancellationToken cancellationToken = default)
         {
+            if (_settings == null) throw new ArgumentNullException("CacheKey", "CacheKey is not configured in appsettings.json");
+            if (_settings.CacheKey == null) throw new ArgumentNullException("CacheKey", "CacheKey is not configured in appsettings.json");
+            if (_settings.NewStoriesJSONPath == null) throw new ArgumentNullException("NewStoriesJSONPath", "NewStoriesJSONPath is not configured in appsettings.json");
+            if (_settings.ItemJSONPath == null) throw new ArgumentNullException("ItemJSONPath", "ItemJSONPath is not configured in appsettings.json");
+            if (_settings.NumberOfStoriesToPull == null) throw new ArgumentNullException("NumberOfStoriesToPull", "NumberOfStoriesToPull is not configured in appsettings.json");
+            if (_settings.CacheTimeoutInMinutes == null) throw new ArgumentNullException("CacheTimeoutInMinutes", "CacheTimeoutInMinutes is not configured in appsettings.json");
+
             try
             {
                 string itemJson = _settings.ItemJSONPath!.Replace("{storyId}", storyId.ToString().Trim());

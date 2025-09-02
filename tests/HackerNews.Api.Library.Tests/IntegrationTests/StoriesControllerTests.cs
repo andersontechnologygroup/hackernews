@@ -151,7 +151,7 @@ namespace HackerNews.Api.Library.Tests.IntegrationTests
         [InlineData(null, null)]
         [InlineData("", "")]
         [InlineData(" ", " ")]
-        public async Task SearchStories_ShouldReturnBadRequest_WhenNoParametersProvided(string keyword, string byUser)
+        public async Task SearchStories_ShouldReturnBadRequest_WhenNoParametersProvided(string? keyword, string? byUser)
         {
             // Arrange
             var cancellationToken = new CancellationToken();
@@ -171,7 +171,7 @@ namespace HackerNews.Api.Library.Tests.IntegrationTests
         [InlineData(null, "user1")]
         [InlineData("", "user1")]
         [InlineData(" ", "user1")]
-        public async Task SearchStories_ShouldReturnOkResult_WithResults(string keyword, string byUser)
+        public async Task SearchStories_ShouldReturnOkResult_WithResults(string? keyword, string? byUser)
         {
             // Arrange
             var cancellationToken = new CancellationToken();

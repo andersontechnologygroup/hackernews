@@ -50,7 +50,7 @@ public class HackerNewsServiceTests
         var _stories = new[]
         {
             new { id = 1, Title = "Story 1", url = "https://valid.com/story1", by = "user1", score = 10, time = 1672531200 },
-            new { id = 2, Title = "Story 2", url = (string)null, by = "user2", score = 20, time = 1672531201 }, // No URL
+            new { id = 2, Title = "Story 2", url = (string?)null, by = "user2", score = 20, time = 1672531201 }, // No URL
             new { id = 3, Title = "Story 3", url = "not-a-valid-url", by = "user3", score = 30, time = 1672531202 }, // Invalid URL
             new { id = 4, Title = "Story 4", url = "http://valid.com/story4", by = "user4", score = 40, time = 1672531203 },
             new { id = 5, Title = "Story 5", url = "http://valid.com/story5", by = "user1", score = 40, time = 1672531204 },

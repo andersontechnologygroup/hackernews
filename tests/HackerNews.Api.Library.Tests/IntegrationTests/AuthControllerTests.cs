@@ -75,10 +75,10 @@ public class AuthControllerTests
     [InlineData("", null)]
     [InlineData("testuser", null)]
     [InlineData(null, "Password123!")]
-    public void Login_WithInvalidCredentials_ReturnsUnauthorizedResult(string username, string password)
+    public void Login_WithInvalidCredentials_ReturnsUnauthorizedResult(string? username, string? password)
     {
         // Arrange
-        var loginRequest = new LoginRequest(username, password);
+        var loginRequest = new LoginRequest(username ?? String.Empty, password ?? String.Empty);
 
         // Act
         var result = _authController.Login(loginRequest);

@@ -78,7 +78,7 @@
               <div class="flex items-center space-x-2 text-sm text-gray-500 dark:text-gray-400 mt-1">
                 <span>by <strong>{{ story.by }}</strong></span>
                 <span>&nbsp; &middot; &nbsp;</span>
-                <span>{{ formatTimeAgo(story.time) }}</span>
+                <span>{{ story.time | timeago }}</span>
                 <span>&nbsp; &middot; &nbsp;</span>
                 <span class="text-gray-600 dark:text-gray-300 font-medium truncate">
                   {{ getHostname(story.url) }}

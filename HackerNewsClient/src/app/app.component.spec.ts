@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { TimeAgoPipe } from "../pipes/timeago.pipe";
 
 // Define the story interface locally for testing purposes
 interface HackerNewsStory {
@@ -51,6 +52,7 @@ describe('AppComponent', () => {
         FormsModule,
         RouterOutlet,
         CommonModule,
+        TimeAgoPipe
       ],
       declarations: [
 
@@ -291,13 +293,6 @@ describe('AppComponent', () => {
       expect(component.getHostname('https://www.google.com/search?q=test')).toBe('google.com');
       expect(component.getHostname('http://angular.dev')).toBe('angular.dev');
       expect(component.getHostname('invalid-url')).toBe('');
-    });
-
-    it('formatTimeAgo should return correct relative time', () => {
-      const nowInSeconds = Math.floor(Date.now() / 1000);
-      expect(component.formatTimeAgo(nowInSeconds - 30)).toContain('seconds ago');
-      expect(component.formatTimeAgo(nowInSeconds - (60 * 5))).toContain('5 minutes ago');
-      expect(component.formatTimeAgo(nowInSeconds - (3600 * 2))).toContain('2 hours ago');
     });
   });
 });

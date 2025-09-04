@@ -43,9 +43,11 @@ builder.Services.AddCors(options =>
                       {
                           // For development, you can allow the default Angular port.
                           // For production, you would list your specific domain(s).
-                          policy.WithOrigins("http://localhost:4200")
-                                .AllowAnyHeader()
-                                .AllowAnyMethod();
+                          
+                          // Since we aren't doing authentication just yet, we don't really mind it being open
+                          policy.AllowAnyOrigin()
+                            .AllowAnyHeader()
+                            .AllowAnyMethod();
                       });
 });
 
@@ -91,6 +93,13 @@ builder.Services.AddAuthentication(options =>
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]
             ?? throw new InvalidOperationException("JWT Key is not configured.")))
     };
+});
+
+builder.Logging.AddSimpleConsole(options =>
+{
+    options.IncludeScopes = true;
+    options.SingleLine = true;
+    options.TimestampFormat = "yyyy-MM-dd HH:mm:ss ";
 });
 
 // App Pipeline Config

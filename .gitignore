@@ -13,3 +13,5 @@
 /tests/HackerNews.Api.Tests/bin/Debug/net9.0
 /tests/HackerNews.Api.Tests/obj
 /HackerNewsClient/obj/Debug
+/src/HackerNews.Api/bin/Release/net9.0
+/src/HackerNews.Api.Library/bin/Release/net9.0
